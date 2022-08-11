@@ -24,7 +24,7 @@ import Dropdown from './Dropdown';
 
 import {ITodo} from '../../Interfaces/ITodo';
 
-import {listsState} from '../../State/TaskState';
+import {listsState} from '../../State/ListState';
 import {todosState} from '../../State/TodoState';
 
 import {
@@ -106,7 +106,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
       completed: false,
     };
 
-    // // Vérifier si la todo existe déjà
+    // Vérifier si la todo existe déjà
     const todoExists = todos.find(todo => todo.id === newTodo.id);
     if (todoExists) {
       Alert.alert(

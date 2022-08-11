@@ -1,11 +1,10 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-
-import {IList} from '../Interfaces/IList';
-
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {COLOR_WHITE} from '../Assets/Styles/global-styles';
+import {IList} from '../../Interfaces/IList';
+
+import {COLOR_WHITE} from '../../Assets/Styles/global-styles';
 
 const List = (props: {list: IList; navigateTo: () => void}) => {
   return (

@@ -8,7 +8,7 @@ import {
   COLOR_LIGHTERBLACK,
   COLOR_RED,
   COLOR_WHITE,
-} from '../Assets/Styles/global-styles';
+} from '../../Assets/Styles/global-styles';
 
 const ListContainer = (props: {children: React.ReactNode; style?: {}}) => {
   const numberOfLists = React.Children.count(props.children) - 1;

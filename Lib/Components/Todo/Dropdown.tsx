@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import {useRecoilValue} from 'recoil';
 
-import {listsState} from '../../State/TaskState';
+import {listsState} from '../../State/ListState';
 
 import {
   COLOR_BLACK,

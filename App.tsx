@@ -1,25 +1,38 @@
-import React, {useRef, useState} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
-import ListContainer from './Lib/Components/ListContainer';
-import List from './Lib/Components/List';
+import ListContainer from './Lib/Components/List/ListContainer';
+import List from './Lib/Components/List/List';
+import AnimatedList from './Lib/Components/List/AnimatedList';
 import AddButtons from './Lib/Components/AddButtons';
 import CreateNewList from './Lib/Components/List/CreateNewList';
 import CreateNewTodo from './Lib/Components/Todo/CreateNewTodo';
 
-import {listsState} from './Lib/State/TaskState';
+import {listsState} from './Lib/State/ListState';
 
 import {
   COLOR_BLACK,
+  COLOR_BLUE,
+  COLOR_GREY,
   COLOR_LIGHTBLACK,
   COLOR_LIGHTERBLACK,
+  COLOR_RED,
   COLOR_WHITE,
 } from './Lib/Assets/Styles/global-styles';
 
 const App = () => {
+  // List of lists (recoil js state)
   const [lists, setLists] = useRecoilState(listsState);
 
   // Controller le Bottom Sheet pour ajouter une liste
@@ -31,29 +44,69 @@ const App = () => {
   // React navigation
   const navigation = useNavigation();
 
+  // State to know if top right button ("Update") is pressed
+  const [isUpdateMenuOpen, setIsUpdateMenuOpen] = useState<
+    'nothing' | 'update'
+  >('nothing');
+
+  // Update button text
+  const [updateButtonText, setUpdateButtonText] = useState<'Update' | 'OK'>(
+    'Update',
+  );
+
   return (
     <SafeAreaView style={{backgroundColor: COLOR_BLACK, height: '100%'}}>
       <StatusBar barStyle={'light-content'} />
 
-      <Text
-        style={{
-          margin: '5%',
-          marginBottom: '0%',
-          color: COLOR_WHITE,
-          fontSize: 26,
-          fontWeight: 'bold',
-        }}>
-        My Lists
-      </Text>
-
       {/* Main content */}
-      <View>
-        {/* Lists */}
-        <View style={{height: '85%'}}>
+      <View style={styles.contentContainer}>
+        {/* Main content */}
+        <View style={styles.mainContentContainer}>
+          {/* Top right button */}
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                // Change state
+                const newState =
+                  isUpdateMenuOpen === 'nothing' ? 'update' : 'nothing';
+                setIsUpdateMenuOpen(newState);
+
+                // Change button text
+                console.log('state : ', isUpdateMenuOpen);
+                const newText = newState === 'update' ? 'OK' : 'Update';
+                setUpdateButtonText(newText);
+              }}>
+              <Text
+                style={
+                  (styles.textStyle,
+                  {
+                    color: COLOR_WHITE,
+                  })
+                }>
+                {updateButtonText}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* My Lists text */}
+          <Text
+            style={[
+              styles.textStyle,
+              {
+                fontSize: 26,
+                fontWeight: 'bold',
+                marginLeft: '5%',
+              },
+            ]}>
+            My Lists
+          </Text>
+
+          {/* Lists */}
           <ScrollView>
             <ListContainer>
               {lists.map((list, index) => (
-                <List
+                <AnimatedList
+                  updateMode={isUpdateMenuOpen}
                   key={index}
                   list={list}
                   navigateTo={() => {
@@ -69,7 +122,7 @@ const App = () => {
         </View>
 
         {/* Buttons container */}
-        <View style={styles.buttonsContainer}>
+        <View style={styles.buttonGroupContainer}>
           <AddButtons
             listOpenBottomSheet={() => {
               const openSheet =
@@ -99,7 +152,30 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  buttonsContainer: {
+  contentContainer: {
+    flex: 1,
+  },
+
+  mainContentContainer: {
+    flex: 2,
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginHorizontal: '5%',
+    marginTop: '5%',
+  },
+  iconEllipsis: {
+    textAlign: 'center',
+    backgroundColor: COLOR_WHITE,
+    borderRadius: 50,
+    padding: '0.5%',
+  },
+
+  buttonGroupContainer: {
+    // flex: 1,
     height: 'auto',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -108,6 +184,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_LIGHTBLACK,
     borderTopWidth: 1,
     borderTopColor: COLOR_LIGHTERBLACK,
+  },
+
+  textStyle: {
+    color: COLOR_WHITE,
   },
 });
 

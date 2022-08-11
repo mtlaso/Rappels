@@ -22,7 +22,7 @@ import {useRecoilState} from 'recoil';
 
 import {IList} from '../../Interfaces/IList';
 
-import {listsState} from '../../State/TaskState';
+import {listsState} from '../../State/ListState';
 
 import {
   COLOR_LIGHTBLACK,
