@@ -35,6 +35,11 @@ const List = (props: {
    * @desc If mode is set to 'update', the delete animation is started
    */
   updateMode: 'nothing' | 'update';
+
+  /**
+   * Function to set the update mode
+   */
+  setUpdateMode: (mode: 'nothing' | 'update') => void;
 }) => {
   // List of lists (recoil js state)
   const [lists, setLists] = useRecoilState(listsState);
@@ -114,6 +119,9 @@ const List = (props: {
           onPress: () => {
             // Delete list
             setLists(lists.filter(list => list.id !== listId));
+
+            // Reset update mode
+            props.setUpdateMode('nothing');
           },
         },
       ],

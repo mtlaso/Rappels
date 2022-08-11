@@ -107,6 +107,7 @@ const App = () => {
               {lists.map((list, index) => (
                 <AnimatedList
                   updateMode={isUpdateMenuOpen}
+                  setUpdateMode={setIsUpdateMenuOpen}
                   key={index}
                   list={list}
                   navigateTo={() => {
