@@ -28,7 +28,7 @@ export interface ITodo {
   description: string;
 
   /**
-   * Status création de la todo
+   * Status de la todo
    */
   completed: boolean;
 }

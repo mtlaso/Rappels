@@ -13,7 +13,6 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {useRecoilValue} from 'recoil';
 
 import ListContainer from '../Components/List/ListContainer';
-import List from '../Components/List/List';
 import Todo from '../Components/Todo/Todo';
 
 import {IList} from '../Interfaces/IList';
