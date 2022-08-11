@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
+  FlatList,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -10,10 +11,8 @@ import {
 import {useRecoilState} from 'recoil';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/AntDesign';
 
 import ListContainer from './Lib/Components/List/ListContainer';
-import List from './Lib/Components/List/List';
 import AnimatedList from './Lib/Components/List/AnimatedList';
 import AddButtons from './Lib/Components/AddButtons';
 import CreateNewList from './Lib/Components/List/CreateNewList';
@@ -58,7 +57,7 @@ const App = () => {
     <SafeAreaView style={{backgroundColor: COLOR_BLACK, height: '100%'}}>
       <StatusBar barStyle={'light-content'} />
 
-      {/* Main content */}
+      {/* Content */}
       <View style={styles.contentContainer}>
         {/* Main content */}
         <View style={styles.mainContentContainer}>
@@ -102,6 +101,32 @@ const App = () => {
           </Text>
 
           {/* Lists */}
+          {/* <ListContainer>
+            <FlatList
+              data={lists}
+              keyExtractor={list => list.id}
+              ListEmptyComponent={() => (
+                <Text style={styles.textStyle}>Nothing to show.</Text>
+              )}
+              renderItem={list => (
+                <AnimatedList
+                  updateMode={isUpdateMenuOpen}
+                  setUpdateModeAfterDelete={() => {
+                    setIsUpdateMenuOpen('nothing');
+                    setUpdateButtonText('Update');
+                  }}
+                  key={list.index}
+                  list={list.item}
+                  navigateTo={() => {
+                    navigation.navigate(
+                      'ListInfoScreen' as never,
+                      {list: list.item} as never,
+                    );
+                  }}
+                />
+              )}
+            />
+          </ListContainer> */}
           <ScrollView>
             <ListContainer>
               {lists.map((list, index) => (
@@ -115,7 +140,7 @@ const App = () => {
                   list={list}
                   navigateTo={() => {
                     navigation.navigate(
-                      'TestScreen' as never,
+                      'ListInfoScreen' as never,
                       {list: list} as never,
                     );
                   }}
@@ -171,13 +196,6 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     marginTop: '5%',
   },
-  iconEllipsis: {
-    textAlign: 'center',
-    backgroundColor: COLOR_WHITE,
-    borderRadius: 50,
-    padding: '0.5%',
-  },
-
   buttonGroupContainer: {
     // flex: 1,
     height: 'auto',

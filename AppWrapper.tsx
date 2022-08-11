@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import App from './App';
 import TestScreen from './Lib/Screens/Test';
+import ListInfoScreen from './Lib/Screens/ListInfoScreen';
 
 const GestureHandlerRootViewAppWrapper = () => {
   return (
@@ -32,6 +33,11 @@ const AppWrapper = () => {
           <Stack.Screen
             name="TestScreen"
             component={TestScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ListInfoScreen"
+            component={ListInfoScreen}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -23,4 +23,6 @@ const Test = () => {
 
 export default Test;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  
+});

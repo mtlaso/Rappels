@@ -16,17 +16,13 @@ import {
 } from '../../Assets/Styles/global-styles';
 
 import {IList} from '../../Interfaces/IList';
+import {DEFAULT_LIST_TITLE} from '../../defaults';
 
 const Dropdown = (props: {
   /**
-   * La liste des listes
-   */
-  items: IList[];
-
-  /**
    * Le placeholder du dropdown
    */
-  placeholder: string;
+  placeholder?: string;
 
   /**
    * Si on peut chercher dans le dropdown
@@ -48,19 +44,18 @@ const Dropdown = (props: {
     props.itemChosen(value!);
   }, [value]);
 
-  const LoadItems = useCallback(() => {
-    setItems(props.items.map(item => ({label: item.title, value: item.id})));
-  }, [items]);
-
   // Charger les listes dans le dropdown
   useEffect(() => {
-    LoadItems();
+    setItems([]);
+    lists.map(list => {
+      setItems(prevItem => [...prevItem, {label: list.title, value: list.id}]);
+    });
   }, [lists]);
 
   return (
     <>
       <DropDownPicker
-        placeholder={props.placeholder}
+        placeholder={props.placeholder ?? DEFAULT_LIST_TITLE}
         items={items}
         value={value}
         open={isOpen}

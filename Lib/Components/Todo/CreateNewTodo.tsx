@@ -6,6 +6,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import React, {
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -20,7 +21,7 @@ import {
 } from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
-import Dropdown from './Dropdown';
+import ListDropdown from '../List/ListsDropdown';
 
 import {ITodo} from '../../Interfaces/ITodo';
 
@@ -41,14 +42,14 @@ import {DEFAULT_LIST_ID, MAX_LENGTH_TODO_TITLE} from '../../defaults';
  */
 const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
   // State management (recoil js)
-  const lists = useRecoilValue(listsState);
+  const [lists, setLists] = useRecoilState(listsState);
   const [todos, setTodos] = useRecoilState(todosState);
 
   // Garder en mémoire la description de la todo
   const [todoDesc, setTodoDesc] = useState('');
 
   // Garder en mémoire l'id de la liste de la todo
-  const [todoListId, setTodoListId] = useState(DEFAULT_LIST_ID); // Par défaut, correspond à la liste "Default list"
+  const [todoListId, setTodoListId] = useState<null | string>('');
 
   // Pour effacer le champ de la escription de la todo
   const textInputRef = useRef<any>(null);
@@ -100,7 +101,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
     // Créer une nouvelle todo
     const newTodo: ITodo = {
       id: Math.random().toString(),
-      list_id: todoListId,
+      listId: todoListId ?? DEFAULT_LIST_ID,
       date: new Date(),
       description: todoDesc.trim(),
       completed: false,
@@ -128,9 +129,6 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
     // Ajouter la todo à la liste des todos
     setTodos([...todos, newTodo]);
 
-    // Fermer le Bottom Sheet
-    CloseBottomSheet();
-
     // Vider le champ de la description de la todo
     textInputRef.current?.clear();
 
@@ -139,6 +137,9 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
 
     // Remettre la todoListId à la liste "Default list"
     setTodoListId(DEFAULT_LIST_ID);
+
+    // Fermer le Bottom Sheet
+    CloseBottomSheet();
   };
 
   return (
@@ -205,9 +206,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
             </KeyboardAvoidingView>
 
             {/* Liste à laquelle la todo appartient */}
-            <Dropdown
-              items={lists}
-              placeholder={'List to add new todo'}
+            <ListDropdown
               itemChosen={id => {
                 setTodoListId(id);
               }}

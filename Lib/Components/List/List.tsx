@@ -6,7 +6,17 @@ import {IList} from '../../Interfaces/IList';
 
 import {COLOR_WHITE} from '../../Assets/Styles/global-styles';
 
-const List = (props: {list: IList; navigateTo: () => void}) => {
+const List = (props: {
+  /**
+   * List to render
+   */
+  list: IList;
+
+  /**
+   * Function to navigate to the list info screen
+   */
+  navigateTo: () => void;
+}) => {
   return (
     <TouchableOpacity
       style={styles.container}

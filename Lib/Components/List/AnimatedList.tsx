@@ -194,10 +194,4 @@ const styles = StyleSheet.create({
   iconNext: {
     marginRight: '5%',
   },
-  imgIcon: {
-    width: 25,
-    height: 50,
-    resizeMode: 'contain',
-    marginRight: '5%',
-  },
 });

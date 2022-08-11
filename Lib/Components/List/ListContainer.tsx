@@ -12,17 +12,16 @@ import {
 
 const ListContainer = (props: {children: React.ReactNode; style?: {}}) => {
   const numberOfLists = React.Children.count(props.children) - 1;
-
   return (
     <View style={styles.container}>
       {React.Children.map(props.children, (child, index) => (
         <>
           <View>{child}</View>
 
+          {/* Doesn't work with Flatlist */}
           {index < numberOfLists && <View style={styles.separator}></View>}
         </>
       ))}
-      {/* {props.children} */}
     </View>
   );
 };
@@ -31,7 +30,6 @@ export default ListContainer;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
     backgroundColor: COLOR_LIGHTBLACK,
     margin: '5%',
     borderRadius: 10,
