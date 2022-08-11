@@ -62,7 +62,9 @@ const ListInfoScreen = () => {
         <View style={styles.contentContainer}>
           {/* Lists */}
           {todos.length <= 0 && (
-            <Text style={styles.textStyle}>No todos to show</Text>
+            <Text style={[styles.textStyle, {paddingLeft: '5%'}]}>
+              No todos to show
+            </Text>
           )}
 
           {todos.length > 0 && (

@@ -79,12 +79,12 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
   const CreateNewTodo = () => {
     // Valider longeurs des champs
     if (
-      todoDesc.trim().length <= 0 ||
+      todoDesc.trim().length < 1 ||
       todoDesc.trim().length > MAX_LENGTH_TODO_TITLE
     ) {
       Alert.alert(
         'Cannot Add Todo',
-        'Todo description must be between 1 and 32 characters',
+        `Todo description must be between 1 and ${MAX_LENGTH_TODO_TITLE} characters`,
         [
           {
             text: 'OK',
