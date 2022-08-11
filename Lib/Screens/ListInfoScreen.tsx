@@ -6,17 +6,16 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useRecoilValue} from 'recoil';
 
-import ListContainer from '../Components/List/ListContainer';
 import Todo from '../Components/Todo/Todo';
 
 import {IList} from '../Interfaces/IList';
-import {ITodo} from '../Interfaces/ITodo';
 
 import {
   COLOR_BLACK,
@@ -25,7 +24,8 @@ import {
 } from '../Assets/Styles/global-styles';
 
 import {todosState} from '../State/TodoState';
-import {FlatList} from 'react-native-gesture-handler';
+
+import {ALL_LISTS_LIST_TITLE} from '../defaults';
 
 const ListInfoScreen = () => {
   const navigation = useNavigation();
@@ -59,14 +59,28 @@ const ListInfoScreen = () => {
 
         {/* Content */}
         <View style={styles.contentContainer}>
-          {/* Lists */}
-          {todos.length <= 0 && (
+          {/* No todos to show */}
+          {todos.length < 1 && (
             <Text style={[styles.textStyle, {paddingLeft: '5%'}]}>
               No todos to show
             </Text>
           )}
 
-          {todos.length > 0 && (
+          {/* Render "All lists" list (render all todos) */}
+          {list.title === ALL_LISTS_LIST_TITLE && todos.length > 0 && (
+            <FlatList
+              data={todos}
+              keyExtractor={todo => todo.id}
+              renderItem={todo => (
+                <>
+                  <Todo key={todo.item.id} todo={todo.item} />
+                </>
+              )}
+            />
+          )}
+
+          {/* Render all other lists */}
+          {list.title !== ALL_LISTS_LIST_TITLE && todos.length > 0 && (
             <FlatList
               data={todos}
               keyExtractor={todo => todo.id}

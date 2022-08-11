@@ -17,3 +17,13 @@ export const DEFAULT_LIST_ID: string = '0';
  * Titre de la liste par defaut
  */
 export const DEFAULT_LIST_TITLE: string = 'Default list';
+
+/**
+ * Id of ALL_LISTS
+ */
+export const ALL_LISTS_LIST_ID: string = '1';
+
+/**
+ * Title of ALL_LISTS
+ */
+export const ALL_LISTS_LIST_TITLE: string = 'All lists';
