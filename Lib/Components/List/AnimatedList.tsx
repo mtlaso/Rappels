@@ -31,15 +31,15 @@ const List = (props: {
 
   /**
    * Used to know if 'Update' button is pressed on the main screen
-   * @desc If mode is set to 'nothing', the delete animation is not started,
-   * @desc If mode is set to 'update', the delete animation is started
+   * @desc If mode is set to 'nothing', the delete sequence is not started,
+   * @desc If mode is set to 'update', the delete sequence is started
    */
   updateMode: 'nothing' | 'update';
 
   /**
-   * Function to set the update mode
+   * Function to set the update mode after a delete sequence
    */
-  setUpdateMode: (mode: 'nothing' | 'update') => void;
+  setUpdateModeAfterDelete: () => void;
 }) => {
   // List of lists (recoil js state)
   const [lists, setLists] = useRecoilState(listsState);
@@ -121,7 +121,7 @@ const List = (props: {
             setLists(lists.filter(list => list.id !== listId));
 
             // Reset update mode
-            props.setUpdateMode('nothing');
+            props.setUpdateModeAfterDelete();
           },
         },
       ],

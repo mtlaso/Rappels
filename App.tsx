@@ -107,7 +107,10 @@ const App = () => {
               {lists.map((list, index) => (
                 <AnimatedList
                   updateMode={isUpdateMenuOpen}
-                  setUpdateMode={setIsUpdateMenuOpen}
+                  setUpdateModeAfterDelete={() => {
+                    setIsUpdateMenuOpen('nothing');
+                    setUpdateButtonText('Update');
+                  }}
                   key={index}
                   list={list}
                   navigateTo={() => {
