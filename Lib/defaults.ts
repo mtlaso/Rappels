@@ -27,3 +27,8 @@ export const ALL_LISTS_LIST_ID: string = '1';
  * Title of ALL_LISTS
  */
 export const ALL_LISTS_LIST_TITLE: string = 'All lists';
+
+/**
+ * Async storage key
+ */
+export const ASYNC_STORAGE_KEY: string = '@storage_Key';
