@@ -13,7 +13,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 
 import ListContainer from './Lib/Components/List/ListContainer';
-import AnimatedList from './Lib/Components/List/AnimatedList';
+import List from './Lib/Components/List/List';
 import AddButtons from './Lib/Components/AddButtons';
 import CreateNewList from './Lib/Components/List/CreateNewList';
 import CreateNewTodo from './Lib/Components/Todo/CreateNewTodo';
@@ -22,11 +22,8 @@ import {listsState} from './Lib/State/ListState';
 
 import {
   COLOR_BLACK,
-  COLOR_BLUE,
-  COLOR_GREY,
   COLOR_LIGHTBLACK,
   COLOR_LIGHTERBLACK,
-  COLOR_RED,
   COLOR_WHITE,
 } from './Lib/Assets/Styles/global-styles';
 
@@ -58,34 +55,32 @@ const App = () => {
       <StatusBar barStyle={'light-content'} />
 
       {/* Content */}
-      <View style={styles.contentContainer}>
+      <View style={styles.container}>
         {/* Main content */}
         <View style={styles.mainContentContainer}>
           {/* Top right button */}
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                // Change state
-                const newState =
-                  isUpdateMenuOpen === 'nothing' ? 'update' : 'nothing';
-                setIsUpdateMenuOpen(newState);
+          <TouchableOpacity
+            style={styles.headerContainer}
+            onPress={() => {
+              // Change state
+              const newState =
+                isUpdateMenuOpen === 'nothing' ? 'update' : 'nothing';
+              setIsUpdateMenuOpen(newState);
 
-                // Change button text
-                console.log('state : ', isUpdateMenuOpen);
-                const newText = newState === 'update' ? 'OK' : 'Update';
-                setUpdateButtonText(newText);
-              }}>
-              <Text
-                style={
-                  (styles.textStyle,
-                  {
-                    color: COLOR_WHITE,
-                  })
-                }>
-                {updateButtonText}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              // Change button text
+              const newText = newState === 'update' ? 'OK' : 'Update';
+              setUpdateButtonText(newText);
+            }}>
+            <Text
+              style={
+                (styles.textStyle,
+                {
+                  color: COLOR_WHITE,
+                })
+              }>
+              {updateButtonText}
+            </Text>
+          </TouchableOpacity>
 
           {/* My Lists text */}
           <Text
@@ -95,42 +90,17 @@ const App = () => {
                 fontSize: 26,
                 fontWeight: 'bold',
                 marginLeft: '5%',
+                marginBottom: '5%',
               },
             ]}>
             My Lists
           </Text>
 
           {/* Lists */}
-          {/* <ListContainer>
-            <FlatList
-              data={lists}
-              keyExtractor={list => list.id}
-              ListEmptyComponent={() => (
-                <Text style={styles.textStyle}>Nothing to show.</Text>
-              )}
-              renderItem={list => (
-                <AnimatedList
-                  updateMode={isUpdateMenuOpen}
-                  setUpdateModeAfterDelete={() => {
-                    setIsUpdateMenuOpen('nothing');
-                    setUpdateButtonText('Update');
-                  }}
-                  key={list.index}
-                  list={list.item}
-                  navigateTo={() => {
-                    navigation.navigate(
-                      'ListInfoScreen' as never,
-                      {list: list.item} as never,
-                    );
-                  }}
-                />
-              )}
-            />
-          </ListContainer> */}
           <ScrollView>
             <ListContainer>
               {lists.map((list, index) => (
-                <AnimatedList
+                <List
                   updateMode={isUpdateMenuOpen}
                   setUpdateModeAfterDelete={() => {
                     setIsUpdateMenuOpen('nothing');
@@ -151,7 +121,7 @@ const App = () => {
         </View>
 
         {/* Buttons container */}
-        <View style={styles.buttonGroupContainer}>
+        <View style={styles.buttonsContainer}>
           <AddButtons
             listOpenBottomSheet={() => {
               const openSheet =
@@ -181,7 +151,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  container: {
     flex: 1,
   },
 
@@ -196,7 +166,8 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     marginTop: '5%',
   },
-  buttonGroupContainer: {
+
+  buttonsContainer: {
     // flex: 1,
     height: 'auto',
     flexDirection: 'row',

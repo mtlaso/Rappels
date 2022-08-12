@@ -1,4 +1,12 @@
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useRecoilState} from 'recoil';
@@ -29,6 +37,11 @@ const Todo = (props: {
    * Todo to render
    */
   todo: ITodo;
+
+  /**
+   * Focus on text input of todo
+   */
+  focus?: boolean;
 }) => {
   // List of todos (recoil js state)
   const [todos, setTodo] = useRecoilState(todosState);
@@ -99,9 +112,10 @@ const Todo = (props: {
 
   return (
     <Animated.View
-      entering={LightSpeedInLeft}
-      exiting={LightSpeedOutRight}
-      layout={Layout.springify()}>
+    // entering={LightSpeedInLeft}
+    // exiting={LightSpeedOutRight}
+    // layout={Layout.springify()}
+    >
       <TouchableOpacity
         style={styles.container}
         onPress={e => textInputRef.current?.focus()}>
@@ -117,18 +131,20 @@ const Todo = (props: {
         </TouchableOpacity>
 
         {/* Textinput */}
-        <TextInput
-          style={[styles.textStyle, styles.textInput]}
-          defaultValue={props.todo.description}
-          editable
-          maxLength={MAX_LENGTH_TODO_TITLE}
-          ref={textInputRef}
-          onChangeText={setTodoDesc}
-          onEndEditing={e => {
-            UpdateTodo();
-          }}
-          onSubmitEditing={e => UpdateTodo()}
-        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <TextInput
+            autoFocus={props.focus ?? false}
+            style={[styles.textStyle, styles.textInput]}
+            defaultValue={props.todo.description}
+            editable
+            maxLength={MAX_LENGTH_TODO_TITLE}
+            ref={textInputRef}
+            onChangeText={setTodoDesc}
+            onEndEditing={UpdateTodo}
+            onSubmitEditing={UpdateTodo}
+          />
+        </KeyboardAvoidingView>
       </TouchableOpacity>
     </Animated.View>
   );

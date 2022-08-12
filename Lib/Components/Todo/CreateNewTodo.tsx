@@ -20,6 +20,7 @@ import {
   Alert,
 } from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import uuid from 'react-native-uuid';
 
 import ListDropdown from '../List/ListsDropdown';
 
@@ -100,31 +101,12 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
 
     // Créer une nouvelle todo
     const newTodo: ITodo = {
-      id: Math.random().toString(),
+      id: uuid.v4().toString(),
       listId: todoListId ?? DEFAULT_LIST_ID,
       date: new Date(),
       description: todoDesc.trim(),
       completed: false,
     };
-
-    // Vérifier si la todo existe déjà
-    const todoExists = todos.find(todo => todo.id === newTodo.id);
-    if (todoExists) {
-      Alert.alert(
-        'Cannot Add Todo',
-        'Todo already exists',
-        [
-          {
-            text: 'OK',
-            style: 'cancel',
-          },
-        ],
-        {
-          cancelable: true,
-        },
-      );
-      return;
-    }
 
     // Ajouter la todo à la liste des todos
     setTodos([...todos, newTodo]);
@@ -148,7 +130,6 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         index={-1}
-        style={{zIndex: 3}}
         keyboardBehavior={'interactive'}
         overDragResistanceFactor={1}
         enableOverDrag

@@ -19,6 +19,7 @@ import {
   Alert,
 } from 'react-native';
 import {useRecoilState} from 'recoil';
+import uuid from 'react-native-uuid';
 
 import {IList} from '../../Interfaces/IList';
 
@@ -92,7 +93,7 @@ const CreateNewList = React.forwardRef<any, {}>((props, ref) => {
 
     // Créer la liste
     const newList: IList = {
-      id: Math.random().toString(),
+      id: uuid.v4().toString(),
       title: listName.trim(),
       todos: [],
     };
@@ -211,8 +212,6 @@ const styles = StyleSheet.create({
   BottomSheetTextInput: {
     backgroundColor: COLOR_LIGHTERBLACK,
     margin: '5%',
-    // marginTop: '5%',
-    // marginBottom: '5%',
     borderRadius: 10,
     padding: '5%',
     color: COLOR_WHITE,
