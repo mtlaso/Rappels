@@ -17,7 +17,7 @@ import {COLOR_RED, COLOR_WHITE} from '../../Assets/Styles/global-styles';
 
 import {listsState} from '../../State/ListState';
 
-import {DEFAULT_LIST_ID} from '../../defaults';
+import {ALL_LISTS_LIST_ID, DEFAULT_LIST_ID} from '../../defaults';
 
 const List = (props: {
   /**
@@ -37,7 +37,7 @@ const List = (props: {
   updateMode: 'nothing' | 'update';
 
   /**
-   * Function to set the update mode after a delete sequence
+   * Function to set the update mode after a list is deleted
    */
   setUpdateModeAfterDelete: () => void;
 }) => {
@@ -87,11 +87,14 @@ const List = (props: {
     // Find list
     const list = lists.find(list => list.id === listId);
 
-    // Make sure list found isn't default list
-    if (list && list.id === DEFAULT_LIST_ID) {
+    // Make sure list found isn't "Default list" or "All" list
+    if (
+      (list && list.id === DEFAULT_LIST_ID) ||
+      (list && list.id === ALL_LISTS_LIST_ID)
+    ) {
       Alert.alert(
         'Cannot Delete List',
-        'Cannot delete the default list',
+        'Cannot delete the "Default list" or "All list"',
         [
           {
             text: 'OK',
