@@ -1,0 +1,2 @@
+- Changer animatation navigation
+- Trouver pourquoi ça bug

@@ -16,7 +16,8 @@ import {
 } from '../../Assets/Styles/global-styles';
 
 import {IList} from '../../Interfaces/IList';
-import {DEFAULT_LIST_TITLE} from '../../defaults';
+
+import {ALL_LISTS_LIST_ID, DEFAULT_LIST_TITLE} from '../../defaults';
 
 const Dropdown = (props: {
   /**
@@ -46,8 +47,14 @@ const Dropdown = (props: {
 
   // Charger les listes dans le dropdown
   useEffect(() => {
+    // Empty state
     setItems([]);
-    lists.map(list => {
+
+    // Filter "All lists" from dropdown
+    const filteredLists = lists.filter(list => list.id !== ALL_LISTS_LIST_ID);
+
+    // Add lists to state "items"
+    filteredLists.map(list => {
       setItems(prevItem => [...prevItem, {label: list.title, value: list.id}]);
     });
   }, [lists]);

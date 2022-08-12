@@ -16,6 +16,7 @@ import {IList} from '../../Interfaces/IList';
 import {COLOR_RED, COLOR_WHITE} from '../../Assets/Styles/global-styles';
 
 import {listsState} from '../../State/ListState';
+import {todosState} from '../../State/TodoState';
 
 import {ALL_LISTS_LIST_ID, DEFAULT_LIST_ID} from '../../defaults';
 
@@ -43,6 +44,7 @@ const List = (props: {
 }) => {
   // List of lists (recoil js state)
   const [lists, setLists] = useRecoilState(listsState);
+  const [todos, setTodos] = useRecoilState(todosState);
 
   // Values used to change the icon propreties when 'props.updateMode' is set to 'delete'
   const [iconName, setIconName] = useState<'bars' | 'minuscircleo'>('bars');
@@ -77,7 +79,10 @@ const List = (props: {
     }
   }, [props.updateMode]);
 
-  // Delete list
+  /**
+   * Delete list
+   * @param listId Id of the list to delete
+   */
   const DeleteList = (listId: string) => {
     // Make sure right mode is set
     if (props.updateMode === 'nothing') {
@@ -87,11 +92,13 @@ const List = (props: {
     // Find list
     const list = lists.find(list => list.id === listId);
 
+    // Make sure list exists
+    if (list === undefined) {
+      return;
+    }
+
     // Make sure list found isn't "Default list" or "All" list
-    if (
-      (list && list.id === DEFAULT_LIST_ID) ||
-      (list && list.id === ALL_LISTS_LIST_ID)
-    ) {
+    if (list.id === DEFAULT_LIST_ID || list.id === ALL_LISTS_LIST_ID) {
       Alert.alert(
         'Cannot Delete List',
         'Cannot delete the "Default list" or "All list"',
@@ -122,6 +129,9 @@ const List = (props: {
           onPress: () => {
             // Delete list
             setLists(lists.filter(list => list.id !== listId));
+
+            // Delete all todos associated with list
+            setTodos(todos.filter(todo => todo.listId !== listId));
 
             // Reset update mode
             props.setUpdateModeAfterDelete();
