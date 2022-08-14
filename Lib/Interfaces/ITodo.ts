@@ -10,7 +10,7 @@ export interface ITodo {
   /**
    * Identifiant de la liste à laquelle la todo appartient
    */
-  listId: string;
+  parentListId: string;
 
   /**
    * Date de création de la todo

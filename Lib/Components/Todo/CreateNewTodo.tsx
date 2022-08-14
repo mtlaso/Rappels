@@ -102,7 +102,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
     // Créer une nouvelle todo
     const newTodo: ITodo = {
       id: uuid.v4().toString(),
-      listId: todoListId ?? DEFAULT_LIST_ID,
+      parentListId: todoListId ?? DEFAULT_LIST_ID,
       date: new Date(),
       description: todoDesc.trim(),
       completed: false,

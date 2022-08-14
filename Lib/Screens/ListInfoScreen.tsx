@@ -54,40 +54,23 @@ const ListInfoScreen = () => {
 
   // Create new temporary todo. Used when user presses add button from this screen.
   const CreateNewTempTodo = () => {
-    // Find list id of list to add todo to. Chooses default list id unless list id is "All list",
+    // Find list id of the list to add this todo to. Chooses default list id unless list id is "All list",
     // in which case it chooses "Default list" id.
+    // Because we cannot add a todo to the "All lists" list
     const listId = list.id === ALL_LISTS_LIST_ID ? DEFAULT_LIST_ID : list.id;
 
     // New todo to create
     const newTempTodo: ITodo = {
       id: uuid.v4().toString(),
-      listId: listId,
+      parentListId: listId,
       date: new Date(),
       description: 'New todo...',
       completed: false,
     };
 
-    // Add new todo to list of todos
-    setTodos([...todos, newTempTodo]);
+    // Add new todo to list of todos (to the top)
+    setTodos([newTempTodo, ...todos]);
   };
-
-  // Render item for flat list of "All lists" todos
-  const renderItemsAllLists: ListRenderItem<ITodo> = todo => (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Todo key={todo.item.id} todo={todo.item} />
-    </KeyboardAvoidingView>
-  );
-
-  // Render item for flat list of All other todos
-  const renderItemsDefault: ListRenderItem<ITodo> = todo => (
-    <>
-      {/* Make sure to render todos associated with this list only */}
-      {todo.item.listId === list.id && (
-        <Todo key={todo.item.id} todo={todo.item} />
-      )}
-    </>
-  );
 
   return (
     <SafeAreaView style={{backgroundColor: COLOR_BLACK, height: '100%'}}>
@@ -113,31 +96,22 @@ const ListInfoScreen = () => {
           </Text>
         </View>
 
-        {/* Todos */}
-        <View style={styles.contentContainer}>
-          {/* No todos to show */}
-          {todos.length < 1 && (
-            <Text style={[styles.textStyle, {paddingLeft: '5%'}]}>
-              No todos to show.
-            </Text>
-          )}
-          {/* Render "All lists" list (render all todos) */}
-          {list.title === ALL_LISTS_LIST_TITLE && todos.length > 0 && (
-            <FlatList
-              data={todos}
-              keyExtractor={todo => todo.id}
-              renderItem={renderItemsAllLists}
-            />
-          )}
-          {/* Render all other lists */}
-          {list.title !== ALL_LISTS_LIST_TITLE && todos.length > 0 && (
-            <FlatList
-              data={todos}
-              keyExtractor={todo => todo.id}
-              renderItem={renderItemsDefault}
-            />
-          )}
-        </View>
+        {/* Content */}
+        <ScrollView>
+          {/* Todos */}
+          {todos.map((todo, index) => {
+            if (list.id === ALL_LISTS_LIST_ID) {
+              return <Todo key={todo.id} todo={todo} />;
+            } else {
+              return (
+                // Make sure to render todos associated with the parent list only
+                todo.parentListId === list.id && (
+                  <Todo key={todo.id} todo={todo} />
+                )
+              );
+            }
+          })}
+        </ScrollView>
       </View>
 
       {/* Fab button 'CreateNewTempTodo' */}
@@ -157,7 +131,7 @@ export default ListInfoScreen;
 
 const styles = StyleSheet.create({
   container: {
-    height: '90%',
+    height: '95%',
   },
 
   headerContainer: {
@@ -170,7 +144,7 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
 
   textStyle: {
