@@ -120,6 +120,7 @@ const App = () => {
                   (styles.textStyle,
                   {
                     color: COLOR_WHITE,
+                    fontSize: 16,
                   })
                 }>
                 {updateButtonText}
