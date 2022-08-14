@@ -22,10 +22,14 @@ import {listsState} from './Lib/State/ListState';
 
 import {
   COLOR_BLACK,
+  COLOR_GREEN,
   COLOR_LIGHTBLACK,
   COLOR_LIGHTERBLACK,
+  COLOR_LIGHTGREY,
   COLOR_WHITE,
 } from './Lib/Assets/Styles/global-styles';
+import {ALL_LISTS_LIST_ID} from './Lib/defaults';
+import {IList} from './Lib/Interfaces/IList';
 
 const App = () => {
   // List of lists (recoil js state)
@@ -49,6 +53,44 @@ const App = () => {
   const [updateButtonText, setUpdateButtonText] = useState<'Update' | 'OK'>(
     'Update',
   );
+
+  // Render item of "All lists"
+  const renderItemAllLists = (index: number, list: IList) => {
+    return (
+      <List
+        key={index}
+        icon="book"
+        color={COLOR_GREEN}
+        updateMode={isUpdateMenuOpen}
+        setUpdateModeAfterDelete={() => {
+          setIsUpdateMenuOpen('nothing');
+          setUpdateButtonText('Update');
+        }}
+        list={list}
+        navigateTo={() => {
+          navigation.navigate('ListInfoScreen' as never, {list: list} as never);
+        }}
+      />
+    );
+  };
+
+  // Render item of all other lists
+  const renderItemLists = (index: number, list: IList) => {
+    return (
+      <List
+        key={index}
+        updateMode={isUpdateMenuOpen}
+        setUpdateModeAfterDelete={() => {
+          setIsUpdateMenuOpen('nothing');
+          setUpdateButtonText('Update');
+        }}
+        list={list}
+        navigateTo={() => {
+          navigation.navigate('ListInfoScreen' as never, {list: list} as never);
+        }}
+      />
+    );
+  };
 
   return (
     <SafeAreaView style={{backgroundColor: COLOR_BLACK, height: '100%'}}>
@@ -100,23 +142,13 @@ const App = () => {
           {/* Lists */}
           <ScrollView>
             <ListContainer>
-              {lists.map((list, index) => (
-                <List
-                  updateMode={isUpdateMenuOpen}
-                  setUpdateModeAfterDelete={() => {
-                    setIsUpdateMenuOpen('nothing');
-                    setUpdateButtonText('Update');
-                  }}
-                  key={index}
-                  list={list}
-                  navigateTo={() => {
-                    navigation.navigate(
-                      'ListInfoScreen' as never,
-                      {list: list} as never,
-                    );
-                  }}
-                />
-              ))}
+              {lists.map((list, index) => {
+                if (list.id === ALL_LISTS_LIST_ID) {
+                  return renderItemAllLists(index, list);
+                } else {
+                  return renderItemLists(index, list);
+                }
+              })}
             </ListContainer>
           </ScrollView>
         </View>

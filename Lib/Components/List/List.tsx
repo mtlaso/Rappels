@@ -41,14 +41,35 @@ const List = (props: {
    * Function to set the update mode after a list is deleted
    */
   setUpdateModeAfterDelete: () => void;
+
+  /**
+   * Name of icon
+   * @default - bars
+   */
+  icon?: string;
+
+  /**
+   * Color of icon
+   * @default - white
+   */
+  color?: string;
 }) => {
   // List of lists (recoil js state)
   const [lists, setLists] = useRecoilState(listsState);
   const [todos, setTodos] = useRecoilState(todosState);
 
+  // List icon
+  const listIcon = props.icon ?? 'bars';
+
+  // List color
+  const listColor = props.color ?? COLOR_WHITE;
+
   // Values used to change the icon propreties when 'props.updateMode' is set to 'delete'
-  const [iconName, setIconName] = useState<'bars' | 'minuscircleo'>('bars');
-  const [iconColor, setIconColor] = useState<string>(COLOR_WHITE);
+  const [iconName, setIconName] = useState<typeof listIcon | 'minuscircleo'>(
+    listIcon,
+  );
+
+  const [iconColor, setIconColor] = useState<typeof listColor>(listColor);
 
   // Offset used to animate the list (when "Update" button is pressed)
   const offset = useSharedValue(0);
@@ -74,8 +95,8 @@ const List = (props: {
       setIconColor(COLOR_RED);
     } else {
       offset.value = 0;
-      setIconName('bars');
-      setIconColor(COLOR_WHITE);
+      setIconName(listIcon);
+      setIconColor(iconColor);
     }
   }, [props.updateMode]);
 
