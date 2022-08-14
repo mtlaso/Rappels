@@ -59,7 +59,7 @@ const App = () => {
     return (
       <List
         key={index}
-        icon="book"
+        icon="star"
         color={COLOR_GREEN}
         updateMode={isUpdateMenuOpen}
         setUpdateModeAfterDelete={() => {

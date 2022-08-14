@@ -69,6 +69,7 @@ const List = (props: {
     listIcon,
   );
 
+  // Values used to change icon color when 'props.updateMode' is set to 'delete'
   const [iconColor, setIconColor] = useState<typeof listColor>(listColor);
 
   // Offset used to animate the list (when "Update" button is pressed)
@@ -90,13 +91,13 @@ const List = (props: {
   // Play delete animation when "Update" button is pressed
   useEffect(() => {
     if (props.updateMode === 'update') {
-      offset.value = 12;
+      offset.value = 10;
       setIconName('minuscircleo');
       setIconColor(COLOR_RED);
     } else {
       offset.value = 0;
       setIconName(listIcon);
-      setIconColor(iconColor);
+      setIconColor(listColor);
     }
   }, [props.updateMode]);
 
