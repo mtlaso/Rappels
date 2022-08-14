@@ -5,7 +5,6 @@ import React from 'react';
 
 import {RecoilRoot} from 'recoil';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import App from './App';
@@ -21,7 +20,6 @@ const GestureHandlerRootViewAppWrapper = () => {
 };
 
 const AppWrapper = () => {
-  // const Stack = createNativeStackNavigator();
   const Stack = createStackNavigator();
 
   return (
