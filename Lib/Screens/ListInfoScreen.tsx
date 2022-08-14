@@ -24,6 +24,7 @@ import {ITodo} from '../Interfaces/ITodo';
 
 import {
   COLOR_BLACK,
+  COLOR_GREEN,
   COLOR_LIGHTBLACK,
   COLOR_LIGHTERBLACK,
   COLOR_WHITE,
@@ -86,12 +87,24 @@ const ListInfoScreen = () => {
               name="arrowleft"
               size={25}
               color={COLOR_WHITE}
-              style={styles.iconArrowLeft}
+              style={[
+                styles.iconArrowLeft,
+
+                list.id === ALL_LISTS_LIST_ID
+                  ? styles.iconArrowLeftAllLists
+                  : null,
+              ]}
             />
           </TouchableOpacity>
 
           {/* Title */}
-          <Text style={[styles.textStyle, styles.titleStyle]}>
+          <Text
+            style={[
+              styles.textStyle,
+              styles.titleStyle,
+
+              list.id === ALL_LISTS_LIST_ID ? styles.titleStyleAllLists : null,
+            ]}>
             {list.title}
           </Text>
         </View>
@@ -157,12 +170,18 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
   },
 
+  titleStyleAllLists: {color: COLOR_GREEN},
+
   iconArrowLeft: {
     textAlign: 'center',
     padding: '1%',
     backgroundColor: COLOR_WHITE,
     borderRadius: 50,
     color: COLOR_BLACK,
+  },
+
+  iconArrowLeftAllLists: {
+    backgroundColor: COLOR_GREEN,
   },
 
   fabContainer: {
