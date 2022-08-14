@@ -82,7 +82,9 @@ const ListInfoScreen = () => {
         {/* Header */}
         <View style={styles.headerContainer}>
           {/* Go back button */}
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('HomeScreen' as never)}
+            style={{}}>
             <Icon
               name="arrowleft"
               size={25}
