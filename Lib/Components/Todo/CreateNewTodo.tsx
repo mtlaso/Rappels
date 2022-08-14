@@ -49,7 +49,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
   // Garder en mémoire la description de la todo
   const [todoDesc, setTodoDesc] = useState('');
 
-  // Garder en mémoire l'id de la liste de la todo
+  // Garder en mémoire l'id de la liste à laquelle la todo va apprtenir
   const [todoListId, setTodoListId] = useState<null | string>('');
 
   // Pour effacer le champ de la escription de la todo
@@ -188,6 +188,7 @@ const CreateNewTodo = React.forwardRef<any, {}>((props, ref) => {
 
             {/* Liste à laquelle la todo appartient */}
             <ListDropdown
+              placeholder="Select a list to add todo"
               itemChosen={id => {
                 setTodoListId(id);
               }}
@@ -213,9 +214,6 @@ const styles = StyleSheet.create({
   BottomSheetTextInput: {
     backgroundColor: COLOR_LIGHTERBLACK,
     margin: '5%',
-    // marginTop: '5%',
-    // marginBottom: '5%',
-
     borderRadius: 10,
     padding: '5%',
     color: COLOR_WHITE,

@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {useRecoilValue} from 'recoil';
 
 import {listsState} from '../../State/ListState';
@@ -14,8 +14,6 @@ import {
   COLOR_LIGHTGREY,
   COLOR_WHITE,
 } from '../../Assets/Styles/global-styles';
-
-import {IList} from '../../Interfaces/IList';
 
 import {ALL_LISTS_LIST_ID, DEFAULT_LIST_TITLE} from '../../defaults';
 
