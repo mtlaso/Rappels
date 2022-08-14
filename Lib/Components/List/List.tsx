@@ -131,7 +131,7 @@ const List = (props: {
             setLists(lists.filter(list => list.id !== listId));
 
             // Delete all todos associated with list
-            setTodos(todos.filter(todo => todo.listId !== listId));
+            setTodos(todos.filter(todo => todo.parentListId !== listId));
 
             // Reset update mode
             props.setUpdateModeAfterDelete();
