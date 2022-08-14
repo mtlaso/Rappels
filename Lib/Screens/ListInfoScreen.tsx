@@ -97,7 +97,7 @@ const ListInfoScreen = () => {
         </View>
 
         {/* Content */}
-        <ScrollView>
+        <ScrollView style={{flex: 1}}>
           {/* Todos */}
           {todos.map((todo, index) => {
             if (list.id === ALL_LISTS_LIST_ID) {
