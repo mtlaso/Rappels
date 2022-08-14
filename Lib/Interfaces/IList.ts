@@ -13,9 +13,4 @@ export interface IList {
    * Titre de la liste
    */
   title: string;
-
-  /**
-   * Liste des tâches de la liste
-   */
-  todos?: ITodo[];
 }
