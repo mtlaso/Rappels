@@ -106,7 +106,7 @@ const Todo = (props: {
     if (props.todo.completed) {
       setTimeout(() => {
         setTodo([...todos.slice(0, index), ...todos.slice(index + 1)]);
-      }, 2000);
+      }, 100);
     }
   }, [props.todo.completed]);
 
@@ -131,20 +131,20 @@ const Todo = (props: {
         </TouchableOpacity>
 
         {/* Textinput */}
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <TextInput
-            autoFocus={props.focus ?? false}
-            style={[styles.textStyle, styles.textInput]}
-            defaultValue={props.todo.description}
-            editable
-            maxLength={MAX_LENGTH_TODO_TITLE}
-            ref={textInputRef}
-            onChangeText={setTodoDesc}
-            onEndEditing={UpdateTodo}
-            onSubmitEditing={UpdateTodo}
-          />
-        </KeyboardAvoidingView>
+        {/* <KeyboardAvoidingView */}
+        {/* behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+        <TextInput
+          autoFocus={props.focus ?? false}
+          style={[styles.textStyle, styles.textInput]}
+          defaultValue={props.todo.description}
+          editable
+          maxLength={MAX_LENGTH_TODO_TITLE}
+          ref={textInputRef}
+          onChangeText={setTodoDesc}
+          onEndEditing={UpdateTodo}
+          onSubmitEditing={UpdateTodo}
+        />
+        {/* </KeyboardAvoidingView> */}
       </TouchableOpacity>
     </Animated.View>
   );

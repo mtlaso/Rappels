@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  ListRenderItem,
 } from 'react-native';
 import React, {useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
@@ -68,84 +71,84 @@ const ListInfoScreen = () => {
     setTodos([...todos, newTempTodo]);
   };
 
+  // Render item for flat list of "All lists" todos
+  const renderItemsAllLists: ListRenderItem<ITodo> = todo => (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <Todo key={todo.item.id} todo={todo.item} />
+    </KeyboardAvoidingView>
+  );
+
+  // Render item for flat list of All other todos
+  const renderItemsDefault: ListRenderItem<ITodo> = todo => (
+    <>
+      {/* Make sure to render todos associated with this list only */}
+      {todo.item.listId === list.id && (
+        <Todo key={todo.item.id} todo={todo.item} />
+      )}
+    </>
+  );
+
   return (
     <SafeAreaView style={{backgroundColor: COLOR_BLACK, height: '100%'}}>
       <StatusBar barStyle={'light-content'} />
 
+      {/* Main content */}
       <View style={styles.container}>
-        {/* Main content */}
-        <View style={styles.mainContent}>
-          {/* Header */}
-          <View style={styles.headerContainer}>
-            {/* Go back button */}
-            <View>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
-                <Icon
-                  name="arrowleft"
-                  size={25}
-                  color={COLOR_WHITE}
-                  style={styles.iconArrowLeft}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          {/* Go back button */}
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
+            <Icon
+              name="arrowleft"
+              size={25}
+              color={COLOR_WHITE}
+              style={styles.iconArrowLeft}
+            />
+          </TouchableOpacity>
 
           {/* Title */}
           <Text style={[styles.textStyle, styles.titleStyle]}>
             {list.title}
           </Text>
-
-          {/* Main content */}
-          <View style={styles.contentContainer}>
-            {/* No todos to show */}
-            {todos.length < 1 && (
-              <Text style={[styles.textStyle, {paddingLeft: '5%'}]}>
-                No todos to show.
-              </Text>
-            )}
-
-            {/* Render "All lists" list (render all todos) */}
-            {list.title === ALL_LISTS_LIST_TITLE && todos.length > 0 && (
-              <FlatList
-                data={todos}
-                keyExtractor={todo => todo.id}
-                renderItem={todo => (
-                  <Todo key={todo.item.id} todo={todo.item} />
-                )}
-              />
-            )}
-
-            {/* Render all other lists */}
-            {list.title !== ALL_LISTS_LIST_TITLE && todos.length > 0 && (
-              <FlatList
-                data={todos}
-                keyExtractor={todo => todo.id}
-                renderItem={todo => (
-                  <>
-                    {/* Make sure to render todos associated with this list only */}
-                    {todo.item.listId === list.id && (
-                      <Todo key={todo.item.id} todo={todo.item} />
-                    )}
-                  </>
-                )}
-              />
-            )}
-          </View>
         </View>
 
-        {/* Button group */}
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.buttons} onPress={CreateNewTempTodo}>
-            <Icon
-              name="pluscircle"
-              size={25}
-              color={COLOR_WHITE}
-              style={{marginRight: '2%'}}
+        {/* Todos */}
+        <View style={styles.contentContainer}>
+          {/* No todos to show */}
+          {todos.length < 1 && (
+            <Text style={[styles.textStyle, {paddingLeft: '5%'}]}>
+              No todos to show.
+            </Text>
+          )}
+          {/* Render "All lists" list (render all todos) */}
+          {list.title === ALL_LISTS_LIST_TITLE && todos.length > 0 && (
+            <FlatList
+              data={todos}
+              keyExtractor={todo => todo.id}
+              renderItem={renderItemsAllLists}
             />
-            <Text style={[styles.textStyle, styles.buttonsText]}>Add</Text>
-          </TouchableOpacity>
+          )}
+          {/* Render all other lists */}
+          {list.title !== ALL_LISTS_LIST_TITLE && todos.length > 0 && (
+            <FlatList
+              data={todos}
+              keyExtractor={todo => todo.id}
+              renderItem={renderItemsDefault}
+            />
+          )}
         </View>
       </View>
+
+      {/* Fab button 'CreateNewTempTodo' */}
+      <TouchableOpacity style={styles.fabContainer} onPress={CreateNewTempTodo}>
+        <Icon
+          name="pluscircle"
+          size={40}
+          color={COLOR_WHITE}
+          style={{marginRight: '2%'}}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -154,26 +157,30 @@ export default ListInfoScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: '10%',
-  },
-
-  mainContent: {
-    flex: 1,
-    marginBottom: '5%',
+    height: '90%',
   },
 
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     marginHorizontal: '5%',
+    marginVertical: '10%',
   },
 
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '10%',
-    // marginBottom: '10%',
+  },
+
+  textStyle: {
+    color: COLOR_WHITE,
+  },
+
+  titleStyle: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    paddingLeft: '5%',
   },
 
   iconArrowLeft: {
@@ -184,34 +191,10 @@ const styles = StyleSheet.create({
     color: COLOR_BLACK,
   },
 
-  buttonsContainer: {
-    // flex: 1,
-    height: 'auto',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '5%',
-    backgroundColor: COLOR_LIGHTBLACK,
-    borderTopWidth: 1,
-    borderTopColor: COLOR_LIGHTERBLACK,
-  },
-
-  buttons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-
-  buttonsText: {color: COLOR_WHITE, fontSize: 16, fontWeight: '500'},
-
-  textStyle: {
-    color: COLOR_WHITE,
-  },
-
-  titleStyle: {
-    marginTop: '5%',
-    marginHorizontal: '5%',
-    fontSize: 26,
-    fontWeight: 'bold',
+  fabContainer: {
+    position: 'absolute',
+    bottom: 40,
+    right: 15,
+    zIndex: 3,
   },
 });

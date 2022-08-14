@@ -1,2 +1,3 @@
 - Changer animatation navigation
+- KeyboardAvoidingView dans le "ListInfoScreen"
 - Trouver pourquoi ça bug

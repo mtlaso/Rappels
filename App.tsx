@@ -58,43 +58,44 @@ const App = () => {
       <View style={styles.container}>
         {/* Main content */}
         <View style={styles.mainContentContainer}>
-          {/* Top right button */}
-          <TouchableOpacity
-            style={styles.headerContainer}
-            onPress={() => {
-              // Change state
-              const newState =
-                isUpdateMenuOpen === 'nothing' ? 'update' : 'nothing';
-              setIsUpdateMenuOpen(newState);
+          {/* Header */}
+          <View style={styles.headerContainer}>
+            {/* Top right button */}
+            <TouchableOpacity
+              style={{alignSelf: 'flex-end'}}
+              onPress={() => {
+                // Change state
+                const newState =
+                  isUpdateMenuOpen === 'nothing' ? 'update' : 'nothing';
+                setIsUpdateMenuOpen(newState);
 
-              // Change button text
-              const newText = newState === 'update' ? 'OK' : 'Update';
-              setUpdateButtonText(newText);
-            }}>
+                // Change button text
+                const newText = newState === 'update' ? 'OK' : 'Update';
+                setUpdateButtonText(newText);
+              }}>
+              <Text
+                style={
+                  (styles.textStyle,
+                  {
+                    color: COLOR_WHITE,
+                  })
+                }>
+                {updateButtonText}
+              </Text>
+            </TouchableOpacity>
+
+            {/* My Lists text */}
             <Text
-              style={
-                (styles.textStyle,
+              style={[
+                styles.textStyle,
                 {
-                  color: COLOR_WHITE,
-                })
-              }>
-              {updateButtonText}
+                  fontSize: 26,
+                  fontWeight: 'bold',
+                },
+              ]}>
+              My Lists
             </Text>
-          </TouchableOpacity>
-
-          {/* My Lists text */}
-          <Text
-            style={[
-              styles.textStyle,
-              {
-                fontSize: 26,
-                fontWeight: 'bold',
-                marginLeft: '5%',
-                marginBottom: '5%',
-              },
-            ]}>
-            My Lists
-          </Text>
+          </View>
 
           {/* Lists */}
           <ScrollView>
@@ -151,24 +152,18 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
 
   mainContentContainer: {
-    flex: 2,
+    height: '90%',
   },
 
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
     marginHorizontal: '5%',
-    marginTop: '5%',
+    marginVertical: '5%',
   },
 
   buttonsContainer: {
-    // flex: 1,
     height: 'auto',
     flexDirection: 'row',
     justifyContent: 'space-between',
