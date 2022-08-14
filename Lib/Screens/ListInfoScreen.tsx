@@ -36,6 +36,7 @@ import {
   ALL_LISTS_LIST_ID,
   ALL_LISTS_LIST_TITLE,
   DEFAULT_LIST_ID,
+  FONT_SIZES,
 } from '../defaults';
 
 /**
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
   },
 
   titleStyle: {
-    fontSize: 26,
+    fontSize: FONT_SIZES.title,
     fontWeight: 'bold',
     paddingLeft: '5%',
   },

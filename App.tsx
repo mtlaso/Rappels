@@ -28,7 +28,9 @@ import {
   COLOR_LIGHTGREY,
   COLOR_WHITE,
 } from './Lib/Assets/Styles/global-styles';
-import {ALL_LISTS_LIST_ID} from './Lib/defaults';
+
+import {ALL_LISTS_LIST_ID, FONT_SIZES} from './Lib/defaults';
+
 import {IList} from './Lib/Interfaces/IList';
 
 const App = () => {
@@ -120,7 +122,7 @@ const App = () => {
                   (styles.textStyle,
                   {
                     color: COLOR_WHITE,
-                    fontSize: 16,
+                    fontSize: FONT_SIZES.options,
                   })
                 }>
                 {updateButtonText}
@@ -132,7 +134,7 @@ const App = () => {
               style={[
                 styles.textStyle,
                 {
-                  fontSize: 26,
+                  fontSize: FONT_SIZES.title,
                   fontWeight: 'bold',
                 },
               ]}>

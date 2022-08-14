@@ -75,3 +75,11 @@ export const DATA_PERSISTENCE: {
     }
   },
 };
+
+/**
+ * Font sizes
+ */
+export const FONT_SIZES = {
+  title: 34,
+  options: 16,
+};
