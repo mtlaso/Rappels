@@ -33,6 +33,7 @@ const AppWrapper = () => {
             presentation: 'transparentModal',
             animationTypeForReplace: 'push',
             gestureEnabled: true,
+            gestureDirection: 'horizontal',
           }}>
           <Stack.Screen
             name="HomeScreen"
