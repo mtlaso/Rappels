@@ -1,6 +1,6 @@
 https://user-images.githubusercontent.com/29934021/184557866-1d950259-f9c0-4edf-87d5-0f5ee775cd65.mp4
 
-[*en*](#Reminders)
+[*english*](#Reminders)
 
 # Rappels
 
